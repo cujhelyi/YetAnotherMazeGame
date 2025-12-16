@@ -3,9 +3,17 @@
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/controller/BoardController.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/controller/GameController.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/dto/BoardDTO.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/dto/PlayerDTO.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/dto/TileDTO.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/entity/BoardTile.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/entity/GameBoard.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/entity/Player.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/repository/BoardTileRepository.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/repository/GameBoardRepository.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/repository/PlayerRepository.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/BoardCreationService.java
 /home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/BoardService.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/BoardShuffleService.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/PlayerMovementService.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/TileInsertionService.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/main/java/com/example/labyrinth/service/TileRotationService.java

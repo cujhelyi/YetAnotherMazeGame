@@ -21,8 +21,8 @@ public class GameBoardPersistenceTests {
 
         GameBoard gb = boardService.createDefaultBoard();
         assertNotNull(gb.getId(), "Saved GameBoard should have an id");
-        int expectedSize = gb.getBoardSize() * gb.getBoardSize();
-        assertEquals(expectedSize, gb.getTiles().size(), "Tiles should be created for every cell");
+        int expectedSize = gb.getBoardSize() * gb.getBoardSize() + 1; // +1 for spare tile
+        assertEquals(expectedSize, gb.getTiles().size(), "Tiles should be created for every cell plus spare");
 
         // check a persisted tile has an id and piece properties
         BoardTile t = gb.getTiles().get(0);

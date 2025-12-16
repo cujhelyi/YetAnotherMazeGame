@@ -17,7 +17,6 @@ public class GameBoardTests {
         assertNotNull(arr);
         assertEquals(board.getBoardSize(), arr.length);
         assertEquals(board.getBoardSize(), arr[0].length);
-        // ensure every cell is initialized
         for (int i = 0; i < board.getBoardSize(); i++) {
             for (int j = 0; j < board.getBoardSize(); j++) {
                 assertNotNull(arr[i][j], "Cell should be initialized");
