@@ -1,0 +1,84 @@
+package com.example.labyrinth.entity;
+import jakarta.persistence.*;
+
+@Entity
+public class MapPiece {
+    
+    @Id
+    private Integer id;
+
+    @Column(nullable = false)
+    private boolean exitNorth;
+    
+    @Column(nullable = false)
+    private boolean exitEast;
+    
+    @Column(nullable = false)
+    private boolean exitSouth;
+    
+    @Column(nullable = false)
+    private boolean exitWest;
+    
+    @Column(nullable = false)
+    private String treasure;
+
+    public MapPiece() {
+    }
+
+    public MapPiece(Integer id, boolean exitNorth, boolean exitEast, boolean exitSouth, boolean exitWest, String treasure) {
+        this.id = id;
+        this.exitNorth = exitNorth;
+        this.exitEast = exitEast;
+        this.exitSouth = exitSouth;
+        this.exitWest = exitWest;
+        this.treasure = treasure;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean isExitNorth() {
+        return exitNorth;
+    }
+
+    public void setExitNorth(boolean exitNorth) {
+        this.exitNorth = exitNorth;
+    }
+
+    public boolean isExitEast() {
+        return exitEast;
+    }
+
+    public void setExitEast(boolean exitEast) {
+        this.exitEast = exitEast;
+    }
+
+    public boolean isExitSouth() {
+        return exitSouth;
+    }
+
+    public void setExitSouth(boolean exitSouth) {
+        this.exitSouth = exitSouth;
+    }
+
+    public boolean isExitWest() {
+        return exitWest;
+    }
+
+    public void setExitWest(boolean exitWest) {
+        this.exitWest = exitWest;
+    }
+
+    public String getTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure(String treasure) {
+        this.treasure = treasure;
+    }
+}
