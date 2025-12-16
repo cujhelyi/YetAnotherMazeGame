@@ -40,6 +40,46 @@ public class BoardController {
         return ResponseEntity.ok(toDTO(gb));
     }
 
+    /**
+     * Rotate the spare tile for a board. Only the spare may be rotated using this endpoint.
+     * direction: "cw" (default) or "ccw" for counter-clockwise
+     */
+    @PostMapping("/{id}/spare/rotate")
+    public ResponseEntity<TileDTO> rotateSpare(@PathVariable Long id,
+                                               @RequestParam(defaultValue = "1") int times,
+                                               @RequestParam(defaultValue = "cw") String direction) {
+        try {
+            BoardTile t;
+            if ("ccw".equalsIgnoreCase(direction) || "counterclockwise".equalsIgnoreCase(direction)) {
+                t = boardService.rotateSpareCounterclockwise(id, times);
+            } else {
+                t = boardService.rotateSpareClockwise(id, times);
+            }
+            if (t == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(toTileDTO(t));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    /**
+     * Shuffle the board tiles and spare. If `seed` is provided, the shuffle is deterministic.
+     */
+    @PostMapping("/{id}/shuffle")
+    public ResponseEntity<BoardDTO> shuffleBoard(@PathVariable Long id, @RequestParam(required = false) Long seed) {
+        try {
+            GameBoard gb = (seed == null) ? boardService.shuffleBoard(id) : boardService.shuffleBoard(id, seed);
+            if (gb == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(toDTO(gb));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
     private BoardDTO toDTO(GameBoard gb) {
         BoardDTO dto = new BoardDTO();
         dto.setId(gb.getId());

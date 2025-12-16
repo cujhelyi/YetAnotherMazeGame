@@ -86,6 +86,51 @@ public class BoardTile {
         this.exitWest = exitWest;
     }
 
+    /**
+     * Rotate this tile clockwise.
+     *
+     * Note: per project convention, a single "clockwise" rotation maps exits as follows:
+     * north -> west, east -> north, south -> east, west -> south.
+     * This behavior matches the requested mapping where a tile with only north=true
+     * becomes only west=true after rotateClockwise().
+     */
+    public void rotateClockwise() {
+        boolean oldN = this.exitNorth;
+        boolean oldE = this.exitEast;
+        boolean oldS = this.exitSouth;
+        boolean oldW = this.exitWest;
+
+        this.exitNorth = oldE; // east becomes north
+        this.exitEast = oldS;  // south becomes east
+        this.exitSouth = oldW; // west becomes south
+        this.exitWest = oldN;  // north becomes west
+    }
+
+    /** Rotate clockwise multiple times (times mod 4). */
+    public void rotateClockwise(int times) {
+        int t = ((times % 4) + 4) % 4;
+        for (int i = 0; i < t; i++) rotateClockwise();
+    }
+
+    /** Rotate counter-clockwise once. */
+    public void rotateCounterClockwise() {
+        boolean oldN = this.exitNorth;
+        boolean oldE = this.exitEast;
+        boolean oldS = this.exitSouth;
+        boolean oldW = this.exitWest;
+
+        this.exitNorth = oldW; // west becomes north
+        this.exitEast = oldN;  // north becomes east
+        this.exitSouth = oldE; // east becomes south
+        this.exitWest = oldS;  // south becomes west
+    }
+
+    /** Rotate counter-clockwise multiple times (times mod 4). */
+    public void rotateCounterClockwise(int times) {
+        int t = ((times % 4) + 4) % 4;
+        for (int i = 0; i < t; i++) rotateCounterClockwise();
+    }
+
     public String getTreasure() {
         return treasure;
     }

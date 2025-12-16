@@ -29,10 +29,31 @@ public class GameBoard {
     }
 
     public void resetBoardArray() {
-        // Initialize the board array and spare piece
         this.boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
         this.sparePiece = null;
         this.clearTiles();
+    }
+
+    public void setSparePiece(BoardTile sparePiece) {
+        this.sparePiece = sparePiece;
+    }
+
+    public BoardTile getSparePiece() {
+        return this.sparePiece;
+    }
+
+    public void populateFromTiles() {
+        this.boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
+        this.sparePiece = null;
+        for (BoardTile t : this.tiles) {
+            int r = t.getRowIndex();
+            int c = t.getColIndex();
+            if (r < 0 || c < 0) {
+                this.sparePiece = t;
+            } else if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
+                this.boardArray[r][c] = t;
+            }
+        }
     }
 
     public void setDefaults() {

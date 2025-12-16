@@ -37,6 +37,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- Ensure Jackson databind is available at compile/runtime for JSON loading -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 		<!-- JPA support for entity annotations (jakarta.persistence) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
