@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<!-- Path to a JDK 21 'javac' executable. Default to a common local install; override by setting -Djdk.executable on the command line or exporting JAVA_HOME in your environment. -->
+		<jdk.executable>/home/cujhelyi/.jdk/jdk-21.0.8/bin/javac</jdk.executable>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -78,7 +80,34 @@
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
+					<!-- Force forking the compiler and use a specific javac executable so builds succeed even when system java is older. -->
+					<fork>true</fork>
+					<executable>${jdk.executable}</executable>
+					<release>${java.version}</release>
 				</configuration>
+			</plugin>
+			<!-- Enforce Java toolchain presence and helpful message when missing -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>enforce-java</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<java>
+									<version>21</version>
+									<message>Java 21 is required to build this project. Set JAVA_HOME to a JDK21 installation or pass -Djdk.executable=/path/to/javac to Maven.</message>
+								</java>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
