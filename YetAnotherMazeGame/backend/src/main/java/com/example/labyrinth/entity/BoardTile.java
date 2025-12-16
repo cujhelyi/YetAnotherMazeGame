@@ -15,8 +15,21 @@ public class BoardTile {
     @Column(nullable = false)
     private int colIndex;
 
-    @ManyToOne(optional = false)
-    private MapPiece mapPiece;
+    // Merged MapPiece fields
+    @Column(nullable = false)
+    private boolean exitNorth;
+
+    @Column(nullable = false)
+    private boolean exitEast;
+
+    @Column(nullable = false)
+    private boolean exitSouth;
+
+    @Column(nullable = false)
+    private boolean exitWest;
+
+    @Column(nullable = false)
+    private String treasure;
 
     @ManyToOne(optional = false)
     private GameBoard gameBoard;
@@ -41,12 +54,44 @@ public class BoardTile {
         this.colIndex = colIndex;
     }
 
-    public MapPiece getMapPiece() {
-        return mapPiece;
+    public boolean isExitNorth() {
+        return exitNorth;
     }
 
-    public void setMapPiece(MapPiece mapPiece) {
-        this.mapPiece = mapPiece;
+    public void setExitNorth(boolean exitNorth) {
+        this.exitNorth = exitNorth;
+    }
+
+    public boolean isExitEast() {
+        return exitEast;
+    }
+
+    public void setExitEast(boolean exitEast) {
+        this.exitEast = exitEast;
+    }
+
+    public boolean isExitSouth() {
+        return exitSouth;
+    }
+
+    public void setExitSouth(boolean exitSouth) {
+        this.exitSouth = exitSouth;
+    }
+
+    public boolean isExitWest() {
+        return exitWest;
+    }
+
+    public void setExitWest(boolean exitWest) {
+        this.exitWest = exitWest;
+    }
+
+    public String getTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure(String treasure) {
+        this.treasure = treasure;
     }
 
     public GameBoard getGameBoard() {

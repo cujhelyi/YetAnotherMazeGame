@@ -1,7 +1,7 @@
 package com.example.labyrinth;
 
 import com.example.labyrinth.entity.GameBoard;
-import com.example.labyrinth.entity.MapPiece;
+import com.example.labyrinth.entity.BoardTile;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +13,7 @@ public class GameBoardTests {
         GameBoard board = new GameBoard();
         board.resetBoardArray();
         board.setDefaults();
-        MapPiece[][] arr = board.getBoardArray();
+        BoardTile[][] arr = board.getBoardArray();
         assertNotNull(arr);
         assertEquals(board.getBoardSize(), arr.length);
         assertEquals(board.getBoardSize(), arr[0].length);

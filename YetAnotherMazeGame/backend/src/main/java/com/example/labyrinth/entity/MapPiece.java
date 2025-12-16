@@ -22,16 +22,16 @@ public class MapPiece {
     @Column(nullable = false)
     private String treasure;
 
+    /**
+     * Deprecated: MapPiece has been merged into BoardTile. This class remains as a
+     * placeholder for migration compatibility and should not be used.
+     */
+    @Deprecated
     public MapPiece() {
+        throw new UnsupportedOperationException("MapPiece is deprecated; use BoardTile instead");
     }
-
     public MapPiece(Integer id, boolean exitNorth, boolean exitEast, boolean exitSouth, boolean exitWest, String treasure) {
-        this.id = id;
-        this.exitNorth = exitNorth;
-        this.exitEast = exitEast;
-        this.exitSouth = exitSouth;
-        this.exitWest = exitWest;
-        this.treasure = treasure;
+        throw new UnsupportedOperationException("MapPiece is deprecated; use BoardTile instead");
     }
 
     public Integer getId() {

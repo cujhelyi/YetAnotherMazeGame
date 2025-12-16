@@ -10,10 +10,11 @@ public class GameBoard {
     private Long id;
 
     @Transient
-    private MapPiece[][] boardArray = new MapPiece[BOARD_SIZE][BOARD_SIZE];
+    private BoardTile[][] boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
+
 
     @Transient
-    private MapPiece sparePiece;
+    private BoardTile sparePiece;
 
     @Transient
     private java.util.List<String> players = new java.util.ArrayList<>();
@@ -23,28 +24,36 @@ public class GameBoard {
     @OneToMany(mappedBy = "gameBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<BoardTile> tiles = new java.util.ArrayList<>();
 
-    public MapPiece[][] getBoardArray() {
-        return boardArray;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void resetBoardArray() {
-        this.boardArray = new MapPiece[BOARD_SIZE][BOARD_SIZE];
+        // Initialize the board array and spare piece
+        this.boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
+        this.sparePiece = null;
+        this.clearTiles();
     }
 
     public void setDefaults() {
-        // Fill every cell with a simple default MapPiece (in-memory). Persistence should
-        // be handled by the BoardService which will create BoardTile entities that
-        // reference persisted MapPiece prototypes.
+        // Fill every cell with a simple default BoardTile (in-memory).
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                // use id 0 as an ephemeral in-memory piece (not persisted)
-                this.boardArray[i][j] = new MapPiece(0, false, false, false, false, "");
+                BoardTile t = new BoardTile();
+                t.setRowIndex(i);
+                t.setColIndex(j);
+                t.setExitNorth(i % 2 == 0);
+                t.setExitEast(j % 2 == 0);
+                t.setExitSouth(i % 2 == 1);
+                t.setExitWest((i + j) % 3 == 0);
+                t.setTreasure("");
+                this.boardArray[i][j] = t;
             }
         }
+    }
+
+    public BoardTile[][] getBoardArray() {
+        return this.boardArray;
     }
 
     public java.util.List<BoardTile> getTiles() {

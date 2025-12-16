@@ -1,7 +1,11 @@
 package com.example.labyrinth.repository;
 
-import com.example.labyrinth.entity.MapPiece;
-import org.springframework.data.jpa.repository.JpaRepository;
+/**
+ * Deprecated repository. MapPiece has been merged into BoardTile; use
+ * BoardTileRepository / GameBoardRepository instead. This file remains to
+ * avoid compile breakage in older branches until fully removed.
+ */
+@Deprecated
+public interface MapPieceRepository {
 
-public interface MapPieceRepository extends JpaRepository<MapPiece, Integer> {
 }
