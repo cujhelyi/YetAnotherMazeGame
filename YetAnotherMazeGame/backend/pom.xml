@@ -86,29 +86,8 @@
 					<release>${java.version}</release>
 				</configuration>
 			</plugin>
-			<!-- Enforce Java toolchain presence and helpful message when missing -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.3.0</version>
-				<executions>
-					<execution>
-						<id>enforce-java</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<java>
-									<version>21</version>
-									<message>Java 21 is required to build this project. Set JAVA_HOME to a JDK21 installation or pass -Djdk.executable=/path/to/javac to Maven.</message>
-								</java>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- Note: We avoid enforcing the runtime JVM version so builds can run under older Maven/JVMs
+			     as long as the configured 'javac' (property 'jdk.executable') points to a JDK 21 javac. -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
