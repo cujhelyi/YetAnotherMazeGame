@@ -1,0 +1,17 @@
+Player movement
+
+Tile sliding
+
+Turn order
+
+Game state synchronization
+
+Chat messages
+
+Lobby system / rooms
+
+Multiple simultaneous games
+
+convert http to https
+
+use ngrok to host svr online
