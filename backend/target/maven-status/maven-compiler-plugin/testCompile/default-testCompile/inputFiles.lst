@@ -1,0 +1,9 @@
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/BoardControllerUnitTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/BoardServiceJsonLoadTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/BoardServiceShuffleTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/BoardTileRotationTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/GameBoardPersistenceTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/GameBoardTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/LabyrinthApplicationTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/labyrinth/TileJsonLoadTests.java
+/home/cujhelyi/projects/YetAnotherMazeGame/backend/src/test/java/com/example/laybyrinth/LaybyrinthApplicationTests.java
