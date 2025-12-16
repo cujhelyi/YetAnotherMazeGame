@@ -29,7 +29,6 @@ public class BoardServiceJsonLoadTests {
         GameBoard reloaded = gameBoardRepository.findById(gb.getId()).orElse(null);
         assertNotNull(reloaded);
 
-        // populate transient state (within transaction so lazy collection can be initialized)
         reloaded.populateFromTiles();
 
         assertEquals(50, reloaded.getTiles().size(), "should have 50 saved tiles (including spare)");
@@ -37,7 +36,6 @@ public class BoardServiceJsonLoadTests {
         long spareCount = reloaded.getTiles().stream().filter(t -> t.getRowIndex() < 0 || t.getColIndex() < 0).count();
         assertEquals(1, spareCount, "exactly one spare tile expected");
 
-        // count non-null board cells
         BoardTile[][] arr = reloaded.getBoardArray();
         int filled = 0;
         for (int r = 0; r < reloaded.getBoardSize(); r++) {

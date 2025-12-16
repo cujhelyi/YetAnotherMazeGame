@@ -15,7 +15,6 @@ public class BoardTile {
     @Column(nullable = false)
     private int colIndex;
 
-    // Merged MapPiece fields
     @Column(nullable = false)
     private boolean exitNorth;
 
@@ -36,6 +35,9 @@ public class BoardTile {
 
     @Column(nullable = false)
     private boolean locked = false;
+
+    @Column(nullable = false)
+    private int rotation = 0;
 
     @ManyToOne(optional = false)
     private GameBoard gameBoard;
@@ -92,49 +94,54 @@ public class BoardTile {
         this.exitWest = exitWest;
     }
 
-    /**
-     * Rotate this tile clockwise.
-     *
-     * Note: per project convention, a single "clockwise" rotation maps exits as follows:
-     * north -> west, east -> north, south -> east, west -> south.
-     * This behavior matches the requested mapping where a tile with only north=true
-     * becomes only west=true after rotateClockwise().
-     */
+    public int getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
+
     public void rotateClockwise() {
         boolean oldN = this.exitNorth;
         boolean oldE = this.exitEast;
         boolean oldS = this.exitSouth;
         boolean oldW = this.exitWest;
 
-        this.exitNorth = oldE; // east becomes north
-        this.exitEast = oldS;  // south becomes east
-        this.exitSouth = oldW; // west becomes south
-        this.exitWest = oldN;  // north becomes west
+        this.exitNorth = oldE;
+        this.exitEast = oldS; 
+        this.exitSouth = oldW;
+        this.exitWest = oldN; 
+        
+        int clockwiseRotatedAngle = (this.rotation - 90 + 360) % 360;
+        this.rotation = clockwiseRotatedAngle;
     }
 
-    /** Rotate clockwise multiple times (times mod 4). */
     public void rotateClockwise(int times) {
-        int t = ((times % 4) + 4) % 4;
-        for (int i = 0; i < t; i++) rotateClockwise();
+        int numClockwiseRotations = ((times % 4) + 4) % 4;
+
+        for (int i = 0; i < numClockwiseRotations; i++) rotateClockwise();
     }
 
-    /** Rotate counter-clockwise once. */
     public void rotateCounterClockwise() {
         boolean oldN = this.exitNorth;
         boolean oldE = this.exitEast;
         boolean oldS = this.exitSouth;
         boolean oldW = this.exitWest;
 
-        this.exitNorth = oldW; // west becomes north
-        this.exitEast = oldN;  // north becomes east
-        this.exitSouth = oldE; // east becomes south
-        this.exitWest = oldS;  // south becomes west
+        this.exitNorth = oldW; 
+        this.exitEast = oldN;  
+        this.exitSouth = oldE; 
+        this.exitWest = oldS;  
+        
+        int counterClockwiseRotatedAngle = (this.rotation + 90) % 360;
+        this.rotation = counterClockwiseRotatedAngle;
     }
 
-    /** Rotate counter-clockwise multiple times (times mod 4). */
     public void rotateCounterClockwise(int times) {
-        int t = ((times % 4) + 4) % 4;
-        for (int i = 0; i < t; i++) rotateCounterClockwise();
+        int numCounterClockwiseRotations = ((times % 4) + 4) % 4;
+
+        for (int i = 0; i < numCounterClockwiseRotations; i++) rotateCounterClockwise();
     }
 
     public String getTreasure() {

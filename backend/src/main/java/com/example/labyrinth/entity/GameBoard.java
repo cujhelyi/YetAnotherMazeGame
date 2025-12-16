@@ -12,17 +12,17 @@ public class GameBoard {
     @Transient
     private BoardTile[][] boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
 
-
     @Transient
     private BoardTile sparePiece;
 
     @Transient
     private java.util.List<String> players = new java.util.ArrayList<>();
 
-    private int[] defaultPieces = {1,2,3,4,5,6,7,8,9,10};
-
     @OneToMany(mappedBy = "gameBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<BoardTile> tiles = new java.util.ArrayList<>();
+
+    @OneToMany(mappedBy = "gameBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Player> playersList = new java.util.ArrayList<>();
 
     public Long getId() {
         return id;
@@ -45,34 +45,32 @@ public class GameBoard {
     public void populateFromTiles() {
         this.boardArray = new BoardTile[BOARD_SIZE][BOARD_SIZE];
         this.sparePiece = null;
-        for (BoardTile t : this.tiles) {
-            int r = t.getRowIndex();
-            int c = t.getColIndex();
-            if (r < 0 || c < 0) {
-                this.sparePiece = t;
-            } else if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
-                this.boardArray[r][c] = t;
+        for (BoardTile tile : this.tiles) {
+            int row = tile.getRowIndex();
+            int col = tile.getColIndex();
+            if (row < 0 || col < 0) {
+                this.sparePiece = tile;
+            } else if (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE) {
+                this.boardArray[row][col] = tile;
             }
         }
     }
 
     public void setDefaults() {
-        // Fill every cell with a simple default BoardTile (in-memory).
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                BoardTile t = new BoardTile();
-                t.setRowIndex(i);
-                t.setColIndex(j);
-                t.setExitNorth(i % 2 == 0);
-                t.setExitEast(j % 2 == 0);
-                t.setExitSouth(i % 2 == 1);
-                t.setExitWest((i + j) % 3 == 0);
-                t.setTreasure("");
-                this.boardArray[i][j] = t;
+                BoardTile tile = new BoardTile();
+                tile.setRowIndex(i);
+                tile.setColIndex(j);
+                tile.setExitNorth(i % 2 == 0);
+                tile.setExitEast(j % 2 == 0);
+                tile.setExitSouth(i % 2 == 1);
+                tile.setExitWest((i + j) % 3 == 0);
+                tile.setTreasure("");
+                this.boardArray[i][j] = tile;
             }
         }
     }
-
     public BoardTile[][] getBoardArray() {
         return this.boardArray;
     }
@@ -92,5 +90,14 @@ public class GameBoard {
 
     public int getBoardSize() {
         return BOARD_SIZE;
+    }
+
+    public java.util.List<Player> getPlayersList() {
+        return playersList;
+    }
+
+    public void addPlayer(Player player) {
+        player.setGameBoard(this);
+        this.playersList.add(player);
     }
 }

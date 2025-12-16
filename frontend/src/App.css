@@ -1,42 +1,207 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem;
+  font-family: sans-serif;
+}
+
+.controls {
+  margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.current-player {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #2196F3;
+}
+
+.controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.controls button:hover {
+  background: #45a049;
+}
+
+.spare-tile-section {
+  margin: 2rem 0;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.spare-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.spare-controls button {
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.spare-controls button:hover {
+  background: #0b7dda;
 }
 
-.card {
-  padding: 2em;
+.game-board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.read-the-docs {
-  color: #888;
+.game-board-with-sides {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  background: #f0f0f0;
+}
+
+.board-row {
+  display: flex;
+}
+
+.tile {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  position: relative;
+  transition: box-shadow 0.2s, background-color 0.2s, border 0.2s;
+  box-sizing: border-box;
+}
+
+.tile.highlighted {
+  box-shadow: 0 0 20px 5px rgba(50, 205, 50, 0.9), inset 0 0 10px rgba(50, 205, 50, 0.3);
+  background-color: rgba(144, 238, 144, 0.4);
+  border: 3px solid #32cd32;
+  z-index: 1;
+}
+
+.tile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.treasure-label {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 1px 3px;
+  border-radius: 2px;
+  border: 1px solid #666;
+  max-width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.players-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.player-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  opacity: 0.7;
+}
+
+.player-icon[data-player="1"] {
+  top: 0;
+  left: 0;
+}
+
+.player-icon[data-player="2"] {
+  top: 0;
+  right: 0;
+}
+
+.player-icon[data-player="3"] {
+  bottom: 0;
+  left: 0;
+}
+
+.player-icon[data-player="4"] {
+  bottom: 0;
+  right: 0;
+}
+
+.insert-buttons-top,
+.insert-buttons-bottom {
+  display: flex;
+  gap: 1px; /* Match tile border spacing */
+}
+
+.insert-buttons-left,
+.insert-buttons-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1px; /* Match tile border spacing */
+}
+
+.insert-btn {
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #4CAF50;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.insert-btn:hover {
+  background: #45a049;
+}
+
+.insert-btn-vertical {
+  width: 60px;
+  height: 30px;
+}
+
+.insert-btn-horizontal {
+  width: 30px;
+  height: 60px;
 }

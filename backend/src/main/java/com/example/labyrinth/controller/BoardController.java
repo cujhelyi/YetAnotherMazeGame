@@ -26,31 +26,31 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<BoardDTO> createBoard() {
-        GameBoard gb = boardService.createDefaultBoard();
-        BoardDTO dto = toDTO(gb);
+        GameBoard gameBoard = boardService.createDefaultBoard();
+        BoardDTO dto = toDTO(gameBoard);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(gb.getId()).toUri();
+                .buildAndExpand(gameBoard.getId()).toUri();
         return ResponseEntity.created(location).body(dto);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BoardDTO> getBoard(@PathVariable Long id) {
-        GameBoard gb = boardService.loadBoard(id);
-        if (gb == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(toDTO(gb));
+        GameBoard gameBoard = boardService.loadBoard(id);
+        if (gameBoard == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(toDTO(gameBoard));
     }
 
     @PostMapping("/spare/rotate")
     public ResponseEntity<TileDTO> rotateSpare(@RequestParam(defaultValue = "1") int times,
                                                @RequestParam(defaultValue = "cw") String direction) {
         try {
-            BoardTile t;
+            BoardTile tile;
             if ("ccw".equalsIgnoreCase(direction) || "counterclockwise".equalsIgnoreCase(direction)) {
-                t = boardService.rotateSpareCounterclockwise(times);
+                tile = boardService.rotateSpareCounterclockwise(times);
             } else {
-                t = boardService.rotateSpareClockwise(times);
+                tile = boardService.rotateSpareClockwise(times);
             }
-            return ResponseEntity.ok(toTileDTO(t));
+            return ResponseEntity.ok(toTileDTO(tile));
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
@@ -58,16 +58,45 @@ public class BoardController {
         }
     }
 
-    /**
-     * Shuffle the board tiles and spare. If `seed` is provided, the shuffle is deterministic.
-     */
     @PostMapping("/{id}/shuffle")
     public ResponseEntity<BoardDTO> shuffleBoard(@PathVariable Long id, @RequestParam(required = false) Long seed) {
         try {
-            GameBoard gb = (seed == null) ? boardService.shuffleBoard(id) : boardService.shuffleBoard(id, seed);
-            if (gb == null) return ResponseEntity.notFound().build();
-            return ResponseEntity.ok(toDTO(gb));
+            GameBoard gameBoard = (seed == null) ? boardService.shuffleBoard(id) : boardService.shuffleBoard(id, seed);
+            if (gameBoard == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(toDTO(gameBoard));
         } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping("/{id}/insert")
+    public ResponseEntity<BoardDTO> insertSpare(@PathVariable Long id,
+                                                @RequestParam(required = false) Integer row,
+                                                @RequestParam(required = false) Integer col,
+                                                @RequestParam String position) {
+        try {
+            GameBoard gameBoard = boardService.insertSpare(id, row, col, position);
+            if (gameBoard == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(toDTO(gameBoard));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping("/{boardId}/players/{playerId}/move")
+    public ResponseEntity<BoardDTO> movePlayer(@PathVariable Long boardId,
+                                               @PathVariable Long playerId,
+                                               @RequestParam int row,
+                                               @RequestParam int col) {
+        try {
+            GameBoard gameBoard = boardService.movePlayer(boardId, playerId, row, col);
+            if (gameBoard == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(toDTO(gameBoard));
+        } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
@@ -80,20 +109,32 @@ public class BoardController {
         dto.setSize(gb.getBoardSize());
         List<TileDTO> tiles = gb.getTiles().stream().map(this::toTileDTO).collect(Collectors.toList());
         dto.setTiles(tiles);
+        List<com.example.labyrinth.dto.PlayerDTO> players = gb.getPlayersList().stream().map(this::toPlayerDTO).collect(Collectors.toList());
+        dto.setPlayers(players);
         return dto;
     }
 
-    private TileDTO toTileDTO(BoardTile t) {
-        TileDTO td = new TileDTO();
-        td.setId(t.getId());
-        td.setRowIndex(t.getRowIndex());
-        td.setColIndex(t.getColIndex());
-        td.setExitNorth(t.isExitNorth());
-        td.setExitEast(t.isExitEast());
-        td.setExitSouth(t.isExitSouth());
-        td.setExitWest(t.isExitWest());
-        td.setTreasure(t.getTreasure());
-        td.setImage(t.getImage());
-        return td;
+    private TileDTO toTileDTO(BoardTile tile) {
+        TileDTO tileDTO = new TileDTO();
+        tileDTO.setId(tile.getId());
+        tileDTO.setRowIndex(tile.getRowIndex());
+        tileDTO.setColIndex(tile.getColIndex());
+        tileDTO.setExitNorth(tile.isExitNorth());
+        tileDTO.setExitEast(tile.isExitEast());
+        tileDTO.setExitSouth(tile.isExitSouth());
+        tileDTO.setExitWest(tile.isExitWest());
+        tileDTO.setTreasure(tile.getTreasure());
+        tileDTO.setImage(tile.getImage());
+        tileDTO.setRotation(tile.getRotation());
+        return tileDTO;
+    }
+
+    private com.example.labyrinth.dto.PlayerDTO toPlayerDTO(com.example.labyrinth.entity.Player player) {
+        com.example.labyrinth.dto.PlayerDTO playerDTO = new com.example.labyrinth.dto.PlayerDTO();
+        playerDTO.setId(player.getId());
+        playerDTO.setPlayerNumber(player.getPlayerNumber());
+        playerDTO.setRowIndex(player.getRowIndex());
+        playerDTO.setColIndex(player.getColIndex());
+        return playerDTO;
     }
 }

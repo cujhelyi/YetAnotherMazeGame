@@ -43,7 +43,7 @@ public class BoardControllerUnitTests {
         BoardTile spare = new BoardTile();
         spare.setRowIndex(-1);
         spare.setColIndex(-1);
-        // return the post-rotation state: only west is true
+        
         spare.setExitNorth(false);
         spare.setExitEast(false);
         spare.setExitSouth(false);
@@ -66,7 +66,7 @@ public class BoardControllerUnitTests {
         BoardTile spare = new BoardTile();
         spare.setRowIndex(-1);
         spare.setColIndex(-1);
-        // post-rotation state for one ccw rotation: east = true
+
         spare.setExitNorth(false);
         spare.setExitEast(true);
         spare.setExitSouth(false);
@@ -82,7 +82,7 @@ public class BoardControllerUnitTests {
     void shuffleBoard_returnsUpdatedBoard() throws Exception {
         GameBoard gb = new GameBoard();
         gb.resetBoardArray();
-        // create tiles list (49 + spare)
+        
         java.util.ArrayList<BoardTile> tiles = new java.util.ArrayList<>();
         for (int r = 0; r < gb.getBoardSize(); r++) {
             for (int c = 0; c < gb.getBoardSize(); c++) {
@@ -135,8 +135,7 @@ public class BoardControllerUnitTests {
         GameBoard gb = new GameBoard();
         gb.resetBoardArray();
         gb.setDefaults();
-        // set id and tiles
-        // create tiles list (simulate persisted tiles)
+        
         ArrayList<BoardTile> tiles = new ArrayList<>();
         for (int r = 0; r < gb.getBoardSize(); r++) {
             for (int c = 0; c < gb.getBoardSize(); c++) {
@@ -149,10 +148,8 @@ public class BoardControllerUnitTests {
         }
         gb.clearTiles();
         tiles.forEach(gb::addTile);
-        // fake id
-        // reflection-free approach: rely on Location header containing the id we return
+        
         when(boardService.createDefaultBoard()).thenAnswer(a -> {
-            // set an id via reflection is unnecessary for controller behavior tests
             return gb;
         });
 
